@@ -1,0 +1,4 @@
+slave	4
+civilization	3
+king	12
+Babylon	7

@@ -1,0 +1,20 @@
+INDEX VERSION 1.131+F:\Sorbonne\DAAR\workspace\.metadata\.plugins\org.eclipse.jdt.core
+4006457579.index
+836319942.index
+1150032396.index
+4070828145.index
+1565738165.index
+1167288623.index
+1973051705.index
+3363078965.index
+3894416945.index
+584483624.index
+2082242286.index
+3349066510.index
+2848923041.index
+589505700.index
+2191864524.index
+823834912.index
+3565658700.index
+543691079.index
+2853391993.index

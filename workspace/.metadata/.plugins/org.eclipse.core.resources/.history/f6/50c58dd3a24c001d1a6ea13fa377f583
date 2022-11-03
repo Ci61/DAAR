@@ -1,0 +1,51 @@
+package kmp;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Kmp {
+	
+	private static String motif;
+	private static char[] factor;
+	private static String fileName;
+	private static int[] tabPrefixe;
+
+	public static void main(String[] args) {
+		if (args.length != 0) {
+			motif = args[0];
+		} else {
+			Scanner scanner = new Scanner(System.in);
+			System.out.print("  >> Please enter a series of characters: ");
+			motif = scanner.next();
+//			System.out.print("  >> Please enter a file name: ");
+//			fileName = scanner.next();
+		}
+
+		if (motif.length() < 1) {
+			System.err.println("  >> ERROR: empty string.");
+		} else {
+			factor = motif.toCharArray();
+			tabPrefixe = new int[factor.length];
+			getNext(factor, tabPrefixe);
+			for(int i :tabPrefixe) {
+				System.out.println(i);
+			}
+		}
+	}
+
+	public static void getNext(char[] str, int[] next) {
+		int j = -1;
+		next[0] = j;
+		for(int i=1; i<str.length;++i) {
+			while( j>-1 && str[i]!=str[j+1]) {
+				j = next[j-1];
+			}
+			if(str[i]==str[j+1]) j++;
+			next[i] = j;
+		}
+	}
+	
+
+}

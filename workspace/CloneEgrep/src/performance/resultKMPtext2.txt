@@ -1,0 +1,4 @@
+slave	1
+civilization	3
+king	4
+Babylon	3

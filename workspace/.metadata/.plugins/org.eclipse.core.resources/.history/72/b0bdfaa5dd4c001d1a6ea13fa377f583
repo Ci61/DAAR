@@ -1,0 +1,85 @@
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Scanner;
+
+/**
+ * @version 1.0
+ * @Author Hongyu YAN & Liuyi CHEN
+ * @Date 2022/10/3 10:56
+ */
+public class KMP {
+
+    public static int kmpSearch(String ligne, String motif, int[] carryOver) {
+        for (int i = 0, j = 0; i < ligne.length(); i++) {
+            while (j > 0 && ligne.charAt(i) != motif.charAt(j)){
+                j = carryOver[j-1];
+            }
+            if (ligne.charAt(i) == motif.charAt(j)){
+                j++;
+            }
+            if (j == motif.length()){
+                return i-j+1;
+            }
+        }
+        return -1;
+    }
+
+    public static int[] kmpCarryOver(String motif) {
+        int[] carryOver = new int[motif.length()];
+        carryOver[0] = 0;
+        int j = 0;
+        for (int i = 1; i < motif.length(); i++) {
+            while (j > 0 && motif.charAt(i) != motif.charAt(j)){ // Different prefix and suffix
+                j = carryOver[j - 1];
+            }
+            if (motif.charAt(i) == motif.charAt(j)){ // Same prefix and suffix
+                j++;
+            }
+            carryOver[i] = j;
+        }
+        return carryOver;
+    }
+
+    private static String motif;
+    private static String fileName;
+    private static int[] carryOver;
+
+    public static void main(String[] args) {
+    	
+        if (args.length!=0) {
+            motif = args[0];
+            fileName = args[1];
+        } else {
+        	System.out.println("args?????: " + args.toString());
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("  >> Please enter a series of characters: ");
+            motif = scanner.next();
+            System.out.print("  >> Please enter a file name: ");
+            fileName = scanner.next();
+        }
+
+        if (motif.length() < 1) {
+            System.err.println("  >> ERROR: empty string.");
+        } else {
+            carryOver = kmpCarryOver(motif);
+        }
+
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader("src/texts/"+fileName));
+            String line;
+            while((line = reader.readLine()) != null) {
+                int index = kmpSearch(line, motif, carryOver);
+                if(index!=-1) {
+                    System.out.println("motif trouvé dans la ligne " + line + " à partir de l'index "+ index);
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

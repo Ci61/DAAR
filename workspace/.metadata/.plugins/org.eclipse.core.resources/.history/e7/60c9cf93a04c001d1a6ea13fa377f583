@@ -1,0 +1,55 @@
+package prof;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+
+public class DFAutomaton {
+	protected HashSet<Integer> transitionTable = new HashSet<Integer>();
+	protected HashMap<Integer, ArrayList<Integer>> caraEnds = new HashMap<Integer, ArrayList<Integer>>();
+	protected HashMap<Integer, ArrayList<Integer>> caraStarts = new HashMap<Integer, ArrayList<Integer>>();
+	
+	public DFAutomaton() {
+		
+	}
+	
+	public void transNFA(NDFAutomaton nfa) {
+		int[][] NFALettreTab = nfa.transitionTable;
+		ArrayList<Integer>[] NFAEpTab = nfa.epsilonTransitionTable;
+		ArrayList<HashSet<Integer>> DFALettreTab = new ArrayList<HashSet<Integer>>();
+
+		ArrayList<Integer> startStats = new ArrayList<Integer>();
+		startStats.add(0);
+		grouperEtat(NFAEpTab, startStats);
+		
+		System.out.println(startStats.toString());
+		
+		
+		HashMap<Integer, ArrayList<Integer>> caraNext = new HashMap<Integer, ArrayList<Integer>>();
+		for(int stat : startStats) {
+			for(int car=0;car<256;car++) {
+				if(caraNext.containsKey(car)) {
+					caraNext.get(car).add(NFALettreTab[stat][car]);
+				}else {
+					ArrayList<Integer> tmpEnds = new ArrayList<Integer>();
+					tmpEnds.add(NFALettreTab[stat][car]);
+					caraNext.put(car, tmpEnds);
+				}
+				
+			}
+			
+			
+		}
+	}
+	
+	public void grouperEtat(ArrayList<Integer>[] NFAEpTab, ArrayList<Integer> resultat) {
+		int lengthStart = resultat.size();
+		int j = 0;
+		do {
+			resultat.addAll(NFAEpTab[resultat.get(j)]);
+			lengthStart = resultat.size();
+			j++;
+		}while(j<lengthStart);
+	}
+
+}

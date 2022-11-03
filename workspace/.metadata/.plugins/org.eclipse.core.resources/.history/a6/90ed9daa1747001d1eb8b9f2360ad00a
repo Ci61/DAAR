@@ -1,0 +1,28 @@
+package automate;
+
+import java.util.ArrayList;
+
+
+/**
+ * Cette class represente la structure d'un automate
+ * Selon la définition des DFA et NFA, ils ne peuvent avoir qu'un seul etat initial et plusieurs états finaux. 
+ * */
+public class Automate {
+	
+    private Etat start;
+    private ArrayList<Etat> ends;
+    
+    public Automate(Etat start, ArrayList<Etat> ends) {
+    	this.start = start;
+    	this.ends = ends;
+    }
+
+	public Etat getStart() {
+		return start;
+	}
+
+	public ArrayList<Etat> getEnds() {
+		return ends;
+	}
+    
+}

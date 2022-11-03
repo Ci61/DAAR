@@ -1,0 +1,43 @@
+package prof;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+
+public class DFAutomaton {
+	protected HashSet<Integer> transitionTable = new HashSet<Integer>();
+	protected HashMap<Integer, ArrayList<Integer>> caraEnds = new HashMap<Integer, ArrayList<Integer>>();
+	
+	public DFAutomaton() {
+		
+	}
+	
+	public void transNFA(NDFAutomaton nfa) {
+		int[][] NFALettreTab = nfa.transitionTable;
+		ArrayList<Integer>[] NFAEpTab = nfa.epsilonTransitionTable;
+
+		ArrayList<Integer> startStats = new ArrayList<Integer>();
+		startStats.add(0);
+		
+		
+		System.out.println(startStats.toString());
+		
+//		for(int i=0; i<NFALettreTab.length; ++i) {
+//			for (int col=0;col<256;col++) {
+//				int lettre = NFALettreTab[i][col];
+//				
+//			}
+//		}
+	}
+	
+	public void grouperEtat(ArrayList<Integer>[] NFAEpTab, ArrayList<Integer> resultat) {
+		int lengthStart = resultat.size();
+		int j = 0;
+		do {
+			resultat.addAll(NFAEpTab[resultat.get(j)]);
+			lengthStart = resultat.size();
+			j++;
+		}while(j<lengthStart);
+	}
+
+}

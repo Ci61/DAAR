@@ -1,0 +1,5 @@
+nvm
+nvm install 16
+nvm use 16
+yarn
+yarn dev

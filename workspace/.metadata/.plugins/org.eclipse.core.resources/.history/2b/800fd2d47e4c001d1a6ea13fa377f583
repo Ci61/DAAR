@@ -1,0 +1,10 @@
+package prof;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+
+public class DFAutomaton {
+	protected HashSet<Integer> transitionTable;
+	protected HashMap<Integer, ArrayList<Integer>> caraEnds;
+}

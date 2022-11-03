@@ -1,0 +1,18 @@
+package prof;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+
+public class DFAutomaton {
+	protected HashSet<Integer> transitionTable = new HashSet<Integer>();
+	protected HashMap<Integer, ArrayList<Integer>> caraEnds = new HashMap<Integer, ArrayList<Integer>>();
+	
+	public DFAutomaton() {
+		
+	}
+	
+	public void transNFA(NDFAutomaton nfa) {
+		
+	}
+}

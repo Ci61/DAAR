@@ -1,0 +1,100 @@
+/**
+ * @version 1.0
+ * @Author Hongyu YAN & Liuyi CHEN
+ * @Date 2022/10/7 10:59
+ */
+package automate;
+
+import java.util.ArrayList;
+import java.util.Set;
+
+/**
+ * Cette class represente la structure d'un automate
+ * Selon la d�finition des DFA et NFA, ils ne peuvent avoir qu'un seul etat initial et plusieurs �tats finaux.
+ * */
+public class Automaton {
+
+    private NDFEtat start;
+    private ArrayList<NDFEtat> ends;
+
+    public Automaton(NDFEtat start, ArrayList<NDFEtat> ends) {
+        this.start = start;
+        this.ends = ends;
+    }
+
+    public NDFEtat getStart() {
+        return start;
+    }
+
+    public ArrayList<NDFEtat> getEnds() {
+        return ends;
+    }
+
+    /**
+     * Transformer un arbre d'expressions regulieres en un automate non fini
+     * deterministe
+     */
+    public Automaton regExTree2NFA(RegExTree ret) {
+        if (ret.subTrees.isEmpty()) { // feuille de l'arbre syntaxe
+            NDFEtat init_state = new NDFEtat();
+            NDFEtat final_state = new NDFEtat();
+            init_state.addTransition(ret.root, final_state);
+            ArrayList<NDFEtat> ends = new ArrayList<NDFEtat>();
+            ends.add(final_state);
+            return new Automaton(init_state, ends);
+        }
+        int root = ret.root;
+        Automaton a1 = regExTree2NFA(ret.subTrees.get(0));
+        Automaton a2 = ret.subTrees.size() > 1 ? regExTree2NFA(ret.subTrees.get(1)) : null;
+        switch (root) {
+            case RegEx.CONCAT:
+                for (NDFEtat end : a1.getEnds()) {
+                    end.addEpsilonTransition(a2.getStart());
+                }
+                return new Automaton(a1.getStart(), a2.getEnds());
+            case RegEx.ALTERN:
+                NDFEtat startAltern = new NDFEtat();
+                startAltern.addEpsilonTransition(a1.getStart());
+                startAltern.addEpsilonTransition(a2.getStart());
+                ArrayList<NDFEtat> endsAltern = new ArrayList<NDFEtat>();
+                endsAltern.add(new NDFEtat());
+                for (NDFEtat e1 : a1.getEnds()) {
+                    e1.addEpsilonTransition(endsAltern.get(0));
+                }
+
+                for (NDFEtat e2 : a2.getEnds()) {
+                    e2.addEpsilonTransition(endsAltern.get(0));
+                }
+                return new Automaton(startAltern, endsAltern);
+            case RegEx.ETOILE:
+                NDFEtat startEtoile = new NDFEtat();
+                ArrayList<NDFEtat> endsEtoile = new ArrayList<NDFEtat>();
+                endsEtoile.add(new NDFEtat());
+
+                startEtoile.addEpsilonTransition(a1.getStart());
+                startEtoile.addEpsilonTransition(endsEtoile.get(0));
+
+                for (NDFEtat e : a1.getEnds()) {
+                    e.addEpsilonTransition(a1.getStart());
+                    e.addEpsilonTransition(endsEtoile.get(0));
+                }
+                return new Automaton(startEtoile, endsEtoile);
+        }
+        return null;
+    }
+
+    public Automaton NFA2DFA(Automaton nfa) {
+        DFAEtat startDFA = new DFAEtat();
+        NDFEtat start = nfa.getStart();
+        startDFA.addEtat(start);
+        Set<NDFEtat> epsilonEtat = start.getEpsilonTransitions();
+        for (NDFEtat e : epsilonEtat) {
+            for(NDFEtat etat : e.getEpsilonTransitions()) {
+
+                startDFA.addEtat(etat);
+            }
+        }
+
+        return null;
+    }
+}

@@ -1,0 +1,9 @@
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
+configDescList=org.eclipse.launchbar.core.descriptorType.default\:Kmp,org.eclipse.launchbar.core.descriptorType.default\:step1then2,org.eclipse.launchbar.core.descriptorType.default\:KMP (1),org.eclipse.launchbar.core.descriptorType.default\:RegEx,org.eclipse.launchbar.core.descriptorType.default\:RegEx (1),org.eclipse.launchbar.core.descriptorType.default\:Performance
+eclipse.preferences.version=1
+org.eclipse.launchbar.core.descriptorType.default\:KMP\ (1)/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:KMP\ (1)/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
+org.eclipse.launchbar.core.descriptorType.default\:Kmp/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:Kmp/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local

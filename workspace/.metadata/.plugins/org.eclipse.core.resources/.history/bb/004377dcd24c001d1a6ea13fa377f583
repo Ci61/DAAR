@@ -1,0 +1,47 @@
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map.Entry;
+
+public class Performance {
+	 public static void testKmp(String[] listMotif, String text) {
+			HashMap<String,Long> resultKMP = new HashMap<String,Long>();
+			System.out.println("Test de l'algorithmes KMP >>>>>>>>>");
+			System.out.println("??????: " + text);
+			for(String motif : listMotif) {
+				String []args = {motif, text};
+				long start = System.currentTimeMillis(); 
+				KMP.main(args);
+				long end = System.currentTimeMillis(); 
+				System.out.println("Le temps d'execution pour motif : "+motif+" texte = "+text+" : " +(end-start));
+				resultKMP.put(motif, (end-start));
+			}
+			
+			writeToFile( "src/performance/resultKMP.txt", resultKMP);
+			
+	}
+	 
+	public static void writeToFile(String nomFichier, HashMap<String,Long> result) {
+			BufferedWriter writer;
+			try {
+				writer = new BufferedWriter(new FileWriter(nomFichier));
+				for(Entry<String,Long> entry: result.entrySet()) {
+					String ligne = entry.getKey()+"\t"+entry.getValue()+"\n";
+					writer.write(ligne);
+				}
+				writer.close();
+				System.out.println("Fin de l'ecriture du resultat >>>>>>>>");
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	}
+	
+	public static void main(String[] args) {
+		String[] motifConcat1 = {"are", "the", "slave"}; 
+		String text = "text1";
+		testKmp(motifConcat1, text);
+	}
+}

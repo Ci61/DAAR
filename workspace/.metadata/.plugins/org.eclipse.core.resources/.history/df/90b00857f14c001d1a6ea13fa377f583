@@ -1,0 +1,47 @@
+package automate;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * @version 1.0
+ * @Author Hongyu YAN & Liuyi CHEN
+ * @Date 2022/10/1 15:16
+ */
+class NDFEtat {
+    public static int cpt = 0;
+    // state number
+    private int id;
+    // input symbols and next states
+    private Map<Integer, NDFEtat> transitions;
+    // epsilon states
+    private Set<NDFEtat> epsilonTransitions;
+
+    public NDFEtat() {
+        this.id = cpt++;
+        transitions = new HashMap<>();
+        epsilonTransitions = new HashSet<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Map<Integer, NDFEtat> getTransitions() {
+        return transitions;
+    }
+
+    public Set<NDFEtat> getEpsilonTransitions() {
+        return epsilonTransitions;
+    }
+
+    public void addTransition(int symbol, NDFEtat state) {
+        transitions.put(symbol, state);
+    }
+
+    public void addEpsilonTransition(NDFEtat state) {
+        epsilonTransitions.add(state);
+    }
+}

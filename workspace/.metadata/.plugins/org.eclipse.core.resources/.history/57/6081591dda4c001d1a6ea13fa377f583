@@ -1,0 +1,82 @@
+package regex;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+
+/**
+ * @version 1.0
+ * @Author Hongyu YAN & Liuyi CHEN
+ * @Date 2022/10/1 15:32
+ */
+public class NFA {
+
+	public NFA(RegExTree ret) {
+	}
+
+	/**
+	 * Transformer un arbre d'expressions régulières en un automate non fini
+	 * deterministe
+	 */
+	public Automate regExTree2NFA(RegExTree ret) {
+		if (ret.subTrees.isEmpty()) {
+			Etat init_state = new Etat();
+			Etat final_state = new Etat();
+			init_state.addTransition(ret.root, final_state);
+			ArrayList<Etat> ends = new ArrayList<Etat>();
+			ends.add(final_state);
+			Automate a = new Automate(init_state, ends);
+			a.addSymbol(ret.root);
+			return a;
+		}
+		int root = ret.root;
+		Automate a1 = regExTree2NFA(ret.subTrees.get(0));
+		Automate a2 = ret.subTrees.size() > 1 ? regExTree2NFA(ret.subTrees.get(1)) : null;
+		switch (root) {
+		case RegEx.CONCAT:
+			for (Etat end : a1.getEnds()) {
+				end.addEpsilonTransition(a2.getStart());
+			}
+			Automate autoConcat = new Automate(a1.getStart(), a2.getEnds());
+ 
+		case RegEx.ALTERN:
+			Etat startAltern = new Etat();
+			startAltern.addEpsilonTransition(a1.getStart());
+			startAltern.addEpsilonTransition(a2.getStart());
+			ArrayList<Etat> endsAltern = new ArrayList<Etat>();
+			endsAltern.add(new Etat());
+			for (Etat e1 : a1.getEnds()) {
+				e1.addEpsilonTransition(endsAltern.get(0));
+			}
+
+			for (Etat e2 : a2.getEnds()) {
+				e2.addEpsilonTransition(endsAltern.get(0));
+			}
+			return new Automate(startAltern, endsAltern);
+		case RegEx.ETOILE:
+			Etat startEtoile = new Etat();
+			ArrayList<Etat> endsEtoile = new ArrayList<Etat>();
+			endsEtoile.add(new Etat());
+
+			startEtoile.addEpsilonTransition(a1.getStart());
+			startEtoile.addEpsilonTransition(endsEtoile.get(0));
+
+			for (Etat e : a1.getEnds()) {
+				e.addEpsilonTransition(a1.getStart());
+				e.addEpsilonTransition(endsEtoile.get(0));
+			}
+			return new Automate(startEtoile, endsEtoile);
+		}
+		return null;
+	}
+//	
+//	public Automate NFA2DFA(Automate nfa) {
+//		HashSet<Etat> new_etats = new HashSet<Etat>();
+//		ArrayList<Etat> new_starts = new ArrayList<Etat>();
+//		Etat start = nfa.getStart();
+//		if(!start.getEpsilonTransitions().isEmpty()) {
+//			new_starts.add(start.getEpsilonTransit nbions())
+//		}
+//		return null;
+//	}
+
+}
